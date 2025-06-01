@@ -1,10 +1,12 @@
+import streamlit as st
 import os
 import google.generativeai as genai
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-# 1. 환경 변수에 API 키 저장 (이미 저장되어 있다면 생략)
+# Streamlit Cloud(share)에서는 secrets 관리 권장
+# os.environ["GOOGLE_API_KEY"] = st.secrets["GOOGLE_API_KEY"]
 os.environ["GOOGLE_API_KEY"] = (
-    "AIzaSyCS_t4PxR1GC_bF4ot9emDcdi8yqRMK9YM"  # 여기에 본인의 API 키를 입력하세요
+    "YOUR_GOOGLE_API_KEY"  # 로컬 테스트용, 배포시 secrets 사용 권장
 )
 
 # 2. Google Generative AI 설정
@@ -17,6 +19,16 @@ llm = ChatGoogleGenerativeAI(
     max_output_tokens=1024,  # 출력 토큰 제한
 )
 
-# 4. 간단한 프롬프트로 테스트
-response = llm.invoke("안녕! 너는 어떤 일을 할 수 있어?")
-print(response)
+st.title("Gemini AI 챗봇 데모")
+st.write("Google Generative AI + LangChain 기반 간단 챗봇입니다.")
+
+user_input = st.text_input("프롬프트를 입력하세요:")
+
+if st.button("AI에게 물어보기"):
+    if user_input:
+        with st.spinner("AI가 답변을 생성 중입니다..."):
+            response = llm.invoke(user_input)
+        st.subheader("AI의 답변:")
+        st.write(response)
+    else:
+        st.warning("프롬프트를 입력해주세요.")
