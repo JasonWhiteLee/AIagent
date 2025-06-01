@@ -14,7 +14,7 @@ genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 
 # 3. LangChain용 Google Generative AI 챗 모델 인스턴스 생성
 llm = ChatGoogleGenerativeAI(
-    model="gemini-pro",  # 사용할 모델명 (예: gemini-pro, gemini-1.5-pro 등)
+    model="gemini-2.0-flash",  # 사용할 모델명 (예: gemini-pro, gemini-1.5-pro 등)
     temperature=0.7,  # 창의성(랜덤성) 조절
     max_output_tokens=1024,  # 출력 토큰 제한
 )
